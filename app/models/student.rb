@@ -1,7 +1,7 @@
 require_relative '../../db/config'
 
 class Student < ActiveRecord::Base
-  validates :email, :format => { :with => /\A[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,}\z/, :message => "Invalid email format" }, :on => :create
+  validates :email, :format => { :with => /\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]{2,}\z/, :message => "Invalid email format" }, :on => :create
   validates :age, :numericality => {:greater_than_or_equal_to => 5, :message => "No toddlers allowed!"}
   validates :phone, :format => { :with => /\(\d{3}\) \d{3}-\d{4}/, :message => "Invalid phone format!" }, :on => :create
   validates :email, :uniqueness => true, :on => :create
