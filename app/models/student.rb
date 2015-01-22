@@ -1,9 +1,13 @@
 require_relative '../../db/config'
 
 class Student < ActiveRecord::Base
+  has_many :students_teachers
+  has_many :teachers, through: :students_teachers
+  validates_associated :students_teachers
+
   validates :email, :format => { :with => /\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]{2,}\z/, :message => "Invalid email format" }, :on => :create
   validates :age, :numericality => {:greater_than_or_equal_to => 5, :message => "No toddlers allowed!"}
-  validates :phone, :format => { :with => /\(\d{3}\) \d{3}-\d{4}/, :message => "Invalid phone format!" }, :on => :create
+  validates :phone, :format => { :with => /\A\d{3}\-\d{3}\-\d{4}/, :message => "Invalid phone format!" }, :on => :create
   validates :email, :uniqueness => true, :on => :create
 
   # implement your Student model here
@@ -16,6 +20,10 @@ class Student < ActiveRecord::Base
     dob = "#{birthday}".to_date
     now = Time.now.utc.to_date
     now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+  end
+
+  def assign
+
   end
 end
 

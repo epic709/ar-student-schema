@@ -5,7 +5,14 @@ require_relative '../config'
 class CreateStudentsTeachers < ActiveRecord::Migration
   def change
     # HINT: checkout ActiveRecord::Migration.create_table
-    create_join_table :students, :teachers, column_options: {null: true}
+    # create_join_table :students, :teachers, column_options: {null: true} do |t|
+    #   t.timestamps null: false
 
+    create_table :students_teachers do |t|
+      t.belongs_to :teacher
+      t.belongs_to :student
+      t.timestamps
+    end
+    add_index(:students_teachers, [:teacher_id, :student_id], unique: true)
   end
 end
